@@ -26,7 +26,7 @@ public class SignatureChangerCli {
             .fromFilePrefix("@")
             .build()
             .defaultHelp(true)
-            .description("A CLI/library");
+            .description("A CLI/library to create and apply .sigs files that hold class/field/method signature information");
         final Subparsers subparsers = parser.addSubparsers()
             .dest("action")
             .help("The action to perform");
