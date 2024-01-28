@@ -5,9 +5,9 @@ import org.jetbrains.annotations.Nullable;
 
 public record SignatureInfo(SignatureMode mode, @Nullable String signature) {
     public SignatureInfo {
-        if (mode == SignatureMode.KEEP) {
+        if (mode == SignatureMode.MODIFY) {
             if (signature == null) {
-                throw new IllegalArgumentException("If mode is KEEP, the signature cannot be null");
+                throw new IllegalArgumentException("If mode is MODIFY, the signature cannot be null");
             }
         } else {
             signature = null;
@@ -16,5 +16,14 @@ public record SignatureInfo(SignatureMode mode, @Nullable String signature) {
 
     public SignatureInfo mergeWith(SignatureInfo other) {
         return other.mode == SignatureMode.KEEP ? this : other;
+    }
+
+    @Nullable
+    public String apply(@Nullable String previous) {
+        return switch (mode) {
+            case KEEP -> previous;
+            case REMOVE -> null;
+            case MODIFY -> signature;
+        };
     }
 }

@@ -2,7 +2,6 @@ package io.github.gaming32.signaturechanger.tree;
 
 import io.github.gaming32.signaturechanger.SignatureMode;
 import io.github.gaming32.signaturechanger.visitor.SigsClassVisitor;
-import org.objectweb.asm.Type;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -15,7 +14,7 @@ public class SigsClass extends SigsClassVisitor {
     @Override
     public void visitMember(String name, String desc, SignatureMode signatureMode, String signature) {
         members.merge(
-            new MemberReference(name, Type.getType(desc)),
+            new MemberReference(name, desc),
             new SignatureInfo(signatureMode, signature),
             SignatureInfo::mergeWith
         );
