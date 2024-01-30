@@ -39,7 +39,7 @@ public class SignatureChangerCli {
             .setDefault(SigsClassGenerator.EmptySignatureMode.IGNORE)
             .help("What to do when a signature is absent");
         generate.addArgument("classes")
-            .type(new PathArgumentType().verifyCanRead())
+            .type(new PathArgumentType().verifyExists().verifyCanRead())
             .nargs("+")
             .help("The directories or jars to load classes from");
 
@@ -50,7 +50,7 @@ public class SignatureChangerCli {
             .type(new PathArgumentType().verifyCanRead().acceptSystemIn())
             .help("The source .sigs file, or \"-\" to use stdin");
         apply.addArgument("classes")
-            .type(new PathArgumentType().verifyCanRead().verifyCanWrite())
+            .type(new PathArgumentType().verifyExists().verifyCanRead().verifyCanWrite())
             .nargs("+")
             .help("The directories or jars to apply signatures to **in-place**");
 
