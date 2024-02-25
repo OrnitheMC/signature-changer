@@ -1,10 +1,11 @@
 plugins {
     java
     `java-library`
+    `maven-publish`
 }
 
 group = "io.github.gaming32"
-version = "1.0-SNAPSHOT"
+version = "1.0.0-beta.1"
 
 repositories {
     mavenCentral()
@@ -30,4 +31,28 @@ dependencies {
 
 tasks.test {
     useJUnitPlatform()
+}
+
+publishing {
+    repositories {
+        maven {
+            setUrl {
+                System.getenv("MAVEN_URL")
+            }
+            credentials {
+                username = System.getenv("MAVEN_USERNAME")
+                password = System.getenv("MAVEN_PASSWORD")
+            }
+        }
+    }
+
+    publications {
+        create<MavenPublication>("maven") {
+            groupId = project.group.toString()
+            artifactId = project.name
+            version = project.version.toString()
+
+            from(components["java"])
+        }
+    }
 }
