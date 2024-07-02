@@ -11,7 +11,9 @@ import org.objectweb.asm.Opcodes;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 
@@ -19,8 +21,13 @@ public class GenerateAction {
     public static final String NAME = "generate";
     private static final int READER_FLAGS = ClassReader.SKIP_CODE | ClassReader.SKIP_DEBUG;
 
-    public static void run(List<Path> classes, SigsClassGenerator.EmptySignatureMode emptyMode) throws IOException {
-        final BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(System.out, StandardCharsets.UTF_8));
+    public static void run(Path sigs, List<Path> classes, SigsClassGenerator.EmptySignatureMode emptyMode) throws IOException {
+        Writer writer;
+        if (sigs.toString().equals("-")) {
+            writer = new BufferedWriter(new OutputStreamWriter(System.out));
+        } else {
+            writer = Files.newBufferedWriter(sigs, StandardCharsets.UTF_8);
+        }
         final SigsClassGenerator generator = new SigsClassGenerator(new SigsFileWriter(writer), emptyMode);
         SignatureChangerCli.iterateClasses(
             classes,

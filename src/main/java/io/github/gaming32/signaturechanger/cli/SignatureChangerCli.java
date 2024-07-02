@@ -38,6 +38,9 @@ public class SignatureChangerCli {
             .type(new LowercaseEnumArgumentType<>(SigsClassGenerator.EmptySignatureMode.class))
             .setDefault(SigsClassGenerator.EmptySignatureMode.IGNORE)
             .help("What to do when a signature is absent");
+        generate.addArgument("sigs")
+            .type(new PathArgumentType().verifyCanRead().acceptSystemIn())
+            .help("The .sigs file to write to, or \"-\" to use stdout");
         generate.addArgument("classes")
             .type(new PathArgumentType().verifyExists().verifyCanRead())
             .nargs("+")
@@ -79,7 +82,7 @@ public class SignatureChangerCli {
         }
 
         switch (parsedArgs.action) {
-            case GenerateAction.NAME -> GenerateAction.run(parsedArgs.classes, parsedArgs.emptyMode);
+            case GenerateAction.NAME -> GenerateAction.run(parsedArgs.sigs, parsedArgs.classes, parsedArgs.emptyMode);
             case ApplyAction.NAME -> ApplyAction.run(parsedArgs.sigs, parsedArgs.classes);
             default -> throw new AssertionError("Unimplemented action " + parsedArgs.action);
         }
