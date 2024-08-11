@@ -32,14 +32,14 @@ public class ApplyAction {
         final SignatureApplier applier = new SignatureApplier(sigsFile);
         SignatureChangerCli.iterateClasses(
             classes,
-            origin -> System.out.println("*** Patching classes from " + origin + " ***"),
+            origin -> {}/*System.out.println("*** Patching classes from " + origin + " ***")*/,
             origin -> {},
             (path, reader) -> {
                 final SigsClass clazz = sigsFile.classes.get(reader.getClassName());
                 if (clazz == null || (clazz.signatureInfo.mode() == SignatureMode.KEEP && clazz.members.isEmpty())) {
                     return;
                 }
-                System.out.println("Patching " + reader.getClassName());
+//                System.out.println("Patching " + reader.getClassName());
                 final ClassWriter writer = new ClassWriter(reader, 0);
                 applier.setDelegate(writer);
                 try {

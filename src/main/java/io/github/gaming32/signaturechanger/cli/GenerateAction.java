@@ -31,7 +31,7 @@ public class GenerateAction {
         final SigsClassGenerator generator = new SigsClassGenerator(new SigsFileWriter(writer), emptyMode);
         SignatureChangerCli.iterateClasses(
             classes,
-            origin -> System.err.println("Generating sigs data for " + origin),
+            origin -> {}/*System.err.println("Generating sigs data for " + origin)*/,
             origin -> writer.flush(),
             (path, reader) -> {
                 if (hasSignatures(reader)) {
@@ -61,7 +61,7 @@ public class GenerateAction {
 
                 @Override
                 public MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
-                    if (signature != null) {
+                    if (signature != null || exceptions != null) {
                         throw HasSignatures.INSTANCE;
                     }
                     return null;
