@@ -29,6 +29,10 @@ public class ApplyAction {
                 reader.accept(sigsFile);
             }
         }
+        ApplyAction.run(sigsFile, classes);
+    }
+
+    public static void run(SigsFile sigsFile, List<Path> classes) throws IOException {
         final SignatureApplier applier = new SignatureApplier(sigsFile);
         SignatureChangerCli.iterateClasses(
             classes,
