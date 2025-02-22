@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "io.github.gaming32"
-version = "1.0.0-beta.4"
+version = "1.0.0"
 
 repositories {
     mavenCentral()
